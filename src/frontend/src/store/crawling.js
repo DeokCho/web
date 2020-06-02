@@ -5,13 +5,12 @@ const state = {
     context: "http://localhost:5000/",
     bugsmusic: [],
     navermovie: [],
-    count: 0,
-    page : []
+    count: 0
 };
 const actions = {
     async search({ commit }, searchWord) {
-        alert("검색어: " + searchWord);
-        switch(searchWord){
+
+        switch (searchWord) {
             case '네이버영화' :
                 alert("검색어: " + searchWord);
                 axios
@@ -24,7 +23,7 @@ const actions = {
                 break
             case '벅스뮤직' :
                 axios
-                    .post(state.context + `bugsmusic`, searchWord, {
+                    .post(state.context + `bugsmusic`,searchWord, {
                         authorization: "JWT fefege..",
                         Accept: "application/json",
                         "Content-Type": "application/json"
@@ -34,10 +33,13 @@ const actions = {
                         router.push("/retriever");
                     })
                     .catch(() => {
-                        alert("액션 실패 !");
+                        alert("통신 실패 !");
                     });
                 break
         }
+
+
+
 
     }
 };
@@ -55,24 +57,12 @@ const mutations = {
             });
         });
     },
-    MOVIE(state, data) {
-        alert("영화 뮤테이션에서 결과 수 : " + data.count);
-        state.navermovie = [];
-        state.count = data.count;
-        data.list.forEach(item => {
-            state.navermovie.push({
-                movieSeq: item.movieSeq,
-                rank: item.rank,
-                title: item.title,
-                rankDate: item.rankDate
-            });
-        });
-    }
+
 };
 const getters = {
     bugsmusic: state => state.bugsmusic,
-    navermoive: state => state.navermoive,
-    count: state => state.count
+    count: state => state.count,
+    navermovie : state => state.navermovie
 };
 
 export default {

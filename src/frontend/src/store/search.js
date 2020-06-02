@@ -1,71 +1,41 @@
-import axios from "axios"
-import router from "@/router"
+import router from "@/router";
 
 const state ={
-    context : "http://localhost:5000/",
-    soccer : [],
+    context : "http://localhost:5000",
+    searchWord : 'null',
+    pageNumber: '0',
+    soccers : [],
     movies : [],
-    musics : [],
-    pager : {}
+    musics: [],
+    pager: {}
 }
-
-const actions = {
-    async find({commit}, searchWord) {
-        alert('>>>'+searchWord)
-        commit("TEST",searchWord)
-        switch(searchWord){
+const actions ={
+    async find({commit},searchWord){
+        commit("SEARCHWORD",searchWord)
+        switch (searchWord) {
             case '영화': router.push("/Movie")
                 break
-            case '음악': router.push("/Soccer")
+            case '음악': router.push("/Music")
                 break
             case '축구': router.push("/Soccer")
                 break
         }
-
-        axios.get(state.context + `soccer/`+searchWord)
-            .then(({data}) => {
-                commit("SEARCH", data);
-                router.push("/Home")
-            })
-            .catch(() => {
-                alert("축구 실패");
-            })
-
-
-
     },
-    async movieList({commit}, pageNumber, searchWord){
-        axios.get(state.context + "movie/list/0/none")
-            .then(({data}) => {
-                commit("SEARCH", data);
-                router.push("/Home")
-            })
-            .catch(() => {
-                alert("영화 통신 실패");
-            })
-    }
-
-
 }
-
-const mutations = {
-    SEARCH(){
-        alert('뮤테이션 진입')
-    },
-    TEST(state, data){
-        alert(`test${data}`)
+const mutations ={
+    SEARCHWORD(state, data){
+        state.searchWord = data
     }
 }
 
-const getters = {
-
-}
+const getters ={}
 
 export default {
-    name: "search",
-    namespaced : true,
+    name:"search",
+    namespaced: true,
     state,
     actions,
     mutations,
     getters
+
 }

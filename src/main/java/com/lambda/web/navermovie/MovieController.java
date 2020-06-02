@@ -13,14 +13,14 @@ import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:8080", allowedHeaders = "*")
 @RestController
-@RequestMapping("/movie")
+@RequestMapping("/movies")
 public class MovieController {
     @Autowired Pager pager;
     @Autowired MovieMapper movieMapper;
     @Autowired Proxy pxy;
     @Autowired Box<Object> box; // count는 String, List 는 ArrayList라서 Object로 처리
 
-    @GetMapping("/list/{pageNumber}/{searchWord}")
+    @GetMapping("/{searchWord}/{pageNumber}")
     public Map<?,?> list(@PathVariable("pageNumber") String pageNumber,
                          @PathVariable("searchWord") String searchWord){
         if(searchWord.equals("")){
@@ -34,14 +34,14 @@ public class MovieController {
         pager.setPageSize(5);
         pager.paging();
         IFunction<Pager, List<MovieDTO>> f = p ->  movieMapper.selectMovies(p);
-        List<MovieDTO> l = f.apply(pager);
+        List<MovieDTO> list = f.apply(pager);
         pxy.print("***********");
-        for(MovieDTO m : l){
+        for(MovieDTO m : list){
             pxy.print(m.toString());
         }
         box.clear();
         box.put("pager", pager);
-        box.put("list", l);
+        box.put("list", list);
         return box.get();
     }
 }

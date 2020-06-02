@@ -54,11 +54,6 @@
                 searchWord: ""
             };
         },
-
-
-        created(){
-          alert('홈')
-        },
         methods: {
             search() {
                 this.$store.dispatch("search/find", this.searchWord);

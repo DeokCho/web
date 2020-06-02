@@ -28,6 +28,11 @@ public class Pager {
         blockPrev = pageStart - blockSize; // 마이너스라는 개념이 없어서 0됨
         blockNext = pageStart + blockSize; // 5
         blockNow = pageNow / blockSize; // 0
+        System.out.println("blockNow :: "+blockNow);
+        existPrev = blockNow != 0;
+        System.out.println("existPrev :: "+existPrev);
+        existNext = (blockNow + 1) != blockCount;
+        System.out.println("existNext :: "+existNext);
     }
 
 }
