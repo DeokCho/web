@@ -54,6 +54,8 @@
                 searchWord: ""
             };
         },
+
+        
         created(){
           alert('홈 크리티드 실행')
         },
