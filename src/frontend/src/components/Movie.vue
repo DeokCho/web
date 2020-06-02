@@ -48,7 +48,8 @@
 
         },
         created(){
-            alert('무비 크리티드 실행')
+            alert('영화 페이지')
+            this.$store.dispatch("search/find", this.searchWord);
         },
         computed: {
             ...mapState({

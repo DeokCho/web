@@ -35,6 +35,9 @@
                 page: 1
             }
         },
+        created(){
+            alert('축구페이지')
+        },
         computed: {
             ...mapState({
                 count: state => state.crawling.count,

@@ -55,9 +55,9 @@
             };
         },
 
-        
+
         created(){
-          alert('홈 크리티드 실행')
+          alert('홈')
         },
         methods: {
             search() {
