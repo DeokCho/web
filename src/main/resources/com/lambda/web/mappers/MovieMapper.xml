@@ -22,6 +22,10 @@
             parameterType="com.lambda.web.proxy.Pager">
        select movie_seq movieSeq, rank, title, rank_date rankDate
       from movie
+      <if test="searchWord !=null">
+         where title like '%${searchWord}%'
+      </if>
+
       limit #{rowStart}, #{pageSize}
 
     </select>
@@ -29,7 +33,8 @@
             parameterType="string">
       select movie_seq movieSeq, rank, title, rank_date rankDate
       from movie
-      where movie_seq = #{value} /* parameter가 String이여서 value로 변경  {movieSeq} */
+      where movie_seq = '${searchWord}' /* parameter가 String이여서 value로 변경  {movieSeq} */
+
     </select>
 
     <select id="count" resultType="int">

@@ -23,7 +23,7 @@ public class Proxy {
         return f.test(t, u);
     }
     public void print(String t){
-        Consumer<String> c = System.out::print;
+        Consumer<String> c = System.out::println;
         c.accept(t);
     }
 }

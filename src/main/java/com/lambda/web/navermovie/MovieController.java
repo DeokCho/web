@@ -23,15 +23,21 @@ public class MovieController {
     @GetMapping("/{searchWord}/{pageNumber}")
     public Map<?,?> list(@PathVariable("pageNumber") String pageNumber,
                          @PathVariable("searchWord") String searchWord){
-        if(searchWord.equals("")){
+
+        if(searchWord.equals("null")){
             pxy.print("검색어가 없음");
+            pager.setSearchWord("");
         }else{
             pxy.print("검색어가 "+searchWord);
+            pager.setSearchWord(searchWord);
         }
+
         pxy.print("넘어온 페이지 번호 : "+ pageNumber);
         pager.setPageNow(pxy.integer(pageNumber));
         pager.setBlockSize(5);
         pager.setPageSize(5);
+        pxy.print("들어온 워드: " + searchWord);
+        pxy.print("세팅된 워드:" + pager.getSearchWord());
         pager.paging();
         IFunction<Pager, List<MovieDTO>> f = p ->  movieMapper.selectMovies(p);
         List<MovieDTO> list = f.apply(pager);
@@ -42,6 +48,13 @@ public class MovieController {
         box.clear();
         box.put("pager", pager);
         box.put("list", list);
+        return box.get();
+    }
+
+    @GetMapping("/{searchWord}")
+    public Map<?,?> detail(@PathVariable String searchWord){
+        box.clear();
+        pxy.print("검색어가 123: "+searchWord);
         return box.get();
     }
 }

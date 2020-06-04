@@ -29,6 +29,14 @@ const actions ={
             })
             .catch()
 
+    },
+    async retrieveOne({commit}, payload){
+        axios
+            .get(`${state.context}/${payload.cate}/${payload.searchWord}`)
+            .then(({data})=>{
+                commit("TRANSFER",data)
+            })
+            .catch()
     }
 }
 const mutations ={
