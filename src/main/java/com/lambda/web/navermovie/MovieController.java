@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 @CrossOrigin(origins = "http://localhost:8080", allowedHeaders = "*")
 @RestController
@@ -52,10 +53,8 @@ public class MovieController {
     }
 
     @GetMapping("/{searchWord}")
-    public Map<?,?> detail(@PathVariable String searchWord){
-        box.clear();
-        pxy.print("검색어가 123: "+searchWord);
-        return box.get();
+    public MovieDTO detail(@PathVariable String searchWord){
+        return movieMapper.selectMovie(searchWord);
     }
 }
 

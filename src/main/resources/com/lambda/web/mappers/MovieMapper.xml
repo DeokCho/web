@@ -2,10 +2,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lambda.web.mappers.MovieMapper">
-    <insert id="insertMovie"
-            parameterType="com.lambda.web.navermovie.MovieDTO">
+    <insert id="insertMovie" resultType="com.lambda.web.navermovie.MovieDTO"
+            parameterType="com.lambda.web.navermovie.MovieDTO" >
         insert rank, title, rank_date into movie
         values (#{rank},#{title},#{rankDate})
+        <selectKey resultType="int" keyProperty="movie_seq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
     </insert>
 
     <update id="updateMovie"
@@ -41,4 +44,42 @@
       select count(*)
       from movie
     </select>
+
+    <select id="switchMovie" resultType="com.lambda.web.navermovie.MovieDTO"
+            parameterType="com.lambda.web.navermovie.MovieDTO">
+        SELECT movie_seq movieSeq, rank, title, rank_date rankDate
+         FROM movie WHERE title like '%${searchWord}%'
+        <choose>
+            <when test="title != null">
+                AND title like #{title}
+            </when>
+            <when test="ost != null and ost.seq != null">
+                AND ost like #{ost.seq}
+            </when>
+            <otherwise>
+                AND rank_date like '${rankDate}%'
+            </otherwise>
+        </choose>
+    </select>
+    <update id="updateMovie" parameterType="com.lambda.web.navermovie.MovieDTO">
+        update movie
+        <set>
+            <if test="rank != null">rank=#{rank},</if>
+            <if test="title != null">title=#{title},</if>
+            <if test="rank_date != null">rank_date=#{rankDate},</if>
+        </set>
+        where movie_seq=#{movieSeq}
+    </update>
+
+    <select id="selectPostIn" resultType="com.lambda.web.navermovie.MovieDTO">
+        SELECT *
+        FROM music m
+        WHERE seq in
+        <foreach item="item" index="index" collection="list"
+                 open="(" separator="," close=")">
+            #{movie}
+        </foreach>
+    </select>
+
+
 </mapper>
